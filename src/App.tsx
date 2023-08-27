@@ -1,4 +1,13 @@
-const App = () => {
+import { ChangeEvent, useState } from "react"
+
+const App = ():JSX.Element => {
+
+  const [place,setPlace]=useState<string>('')
+
+  const onInputChange=(e:ChangeEvent<HTMLInputElement>)=>{
+    setPlace(e.target.value)
+  }
+
   return (
     <main className="flex justify-center items-center bg-[#001427] h-[100vh] w-full ">
       <section
@@ -9,7 +18,7 @@ const App = () => {
         <p className=" text-sm mt-3 italic">Want to know what is the weather like at your next travel destination?</p>
 
 <div className="flex mt-10 md:mt-4">
-        <input type="text" value={''} className="px-2 py-1 rounded-l-md border bg-[#fff2b2] border-white"/>
+        <input type="text" value={place} onChange={onInputChange} className=" text-[#001427] px-2 py-1 rounded-l-md border bg-[#fff2b2] border-white"/>
         <button className=" text-sm rounded-r-md border bg-[#001427] border-white hover:border-[#ffb703] hover:text-[#ffb703] text-zinc-100 px-2 py cursor-pointer">
           search
         </button>
@@ -21,3 +30,6 @@ const App = () => {
 }
 
 export default App
+
+//https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+
