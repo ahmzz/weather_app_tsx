@@ -1,11 +1,16 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { OptionType } from './types'
+
 
 const App = (): JSX.Element => {
   const [place, setPlace] = useState<string>('')
   const [options, setOptions] = useState<[]>([])
+  const [location,setLocation]=useState<OptionType|null>(null)
 
   const getSearchOptions = (value: string) => {
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${value.trim()}&limit=5&appid=${process.env.REACT_APP_API_KEY}
+    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${value.trim()}&limit=5&appid=${
+      process.env.REACT_APP_API_KEY
+    }
     `)
       .then((res) => res.json())
       .then((data) => setOptions(data))
@@ -18,6 +23,34 @@ const App = (): JSX.Element => {
 
     getSearchOptions(e.target.value)
   }
+
+  const getForecast=(city:OptionType)=>{
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
+    .then(res=>res.json())
+    .then(data=>console.log(data))
+  }
+
+  const onSubmit=()=>{
+    if(!location) return
+
+    getForecast(location)
+  }
+
+  const onOptionSelect=(option:OptionType)=>{
+
+    setLocation(option)
+
+    
+  }
+
+  useEffect(()=>{
+
+    if(location){
+      setPlace(location.name)
+      setOptions([])
+    }
+
+  },[location])
 
   return (
     <main className="flex justify-center items-center bg-[#001427] h-[100vh] w-full ">
@@ -41,14 +74,16 @@ const App = (): JSX.Element => {
             className=" text-[#001427] px-2 py-1 rounded-l-md border bg-[#fff2b2] border-white"
           />
 
-          <ul className=' absolute top-9 bg-[#fff2b2] ml-1 rounded-b-md text-black '>
-          {options.map((option: { name: string },index:number) => (
-            <li key={option.name+'-'+index}>
-              <button className='text-left text-sm w-full hover:bg-zinc-700 hover:text-white px-2 py-1 cursor-pointer'>{option.name}</button>
-            </li>
-          ))}
+          <ul className=" absolute top-9 bg-[#fff2b2] ml-1 rounded-b-md text-black ">
+            {options.map((option: OptionType, index: number) => (
+              <li key={option.name + '-' + index}>
+                <button onClick={()=>onOptionSelect(option)} className="text-left text-sm w-full hover:bg-[#ffb703] hover:text-black px-2 py-1 cursor-pointer">
+                  {option.name}
+                </button>
+              </li>
+            ))}
           </ul>
-          <button className=" text-sm rounded-r-md border bg-[#001427] border-white hover:border-[#ffb703] hover:text-[#ffb703] text-zinc-100 px-2 py cursor-pointer">
+          <button onClick={onSubmit} className=" text-sm rounded-r-md border bg-[#001427] border-white hover:border-[#ffb703] hover:text-[#ffb703] text-zinc-100 px-2 py cursor-pointer">
             search
           </button>
         </div>
