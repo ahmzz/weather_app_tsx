@@ -1,19 +1,22 @@
-import { ChangeEvent } from "react"
-import { OptionType } from "../types"
+import { ChangeEvent } from 'react'
+import { OptionType } from '../types'
 
-type Props={
-  place:string,
-  options:[],
-  onInputChange: (e:ChangeEvent<HTMLInputElement>)=>void,
+type Props = {
+  place: string
+  options: []
+  onInputChange: (e: ChangeEvent<HTMLInputElement>) => void
 
-  onOptionSelect:(otpion:OptionType)=>void,
-  onSubmit:()=>void
+  onOptionSelect: (otpion: OptionType) => void
+  onSubmit: () => void
 }
 
-
-const Search = ({place,options,onInputChange,onOptionSelect,onSubmit}:Props): JSX.Element => {
-  
-
+const Search = ({
+  place,
+  options,
+  onInputChange,
+  onOptionSelect,
+  onSubmit,
+}: Props): JSX.Element => {
   return (
     <main className="flex justify-center items-center bg-[#001427] h-[100vh] w-full ">
       <section
@@ -39,13 +42,19 @@ const Search = ({place,options,onInputChange,onOptionSelect,onSubmit}:Props): JS
           <ul className=" absolute top-9 bg-[#fff2b2] ml-1 rounded-b-md text-black ">
             {options.map((option: OptionType, index: number) => (
               <li key={option.name + '-' + index}>
-                <button onClick={()=>onOptionSelect(option)} className="text-left text-sm w-full hover:bg-[#ffb703] hover:text-black px-2 py-1 cursor-pointer">
-                  {option.name}
+                <button
+                  onClick={() => onOptionSelect(option)}
+                  className="text-left text-sm w-full hover:bg-[#ffb703] hover:text-black px-2 py-1 cursor-pointer"
+                >
+                  {option.name},{option.country}
                 </button>
               </li>
             ))}
           </ul>
-          <button onClick={onSubmit} className=" text-sm rounded-r-md border bg-[#001427] border-white hover:border-[#ffb703] hover:text-[#ffb703] text-zinc-100 px-2 py cursor-pointer">
+          <button
+            onClick={onSubmit}
+            className=" text-sm rounded-r-md border bg-[#001427] border-white hover:border-[#ffb703] hover:text-[#ffb703] text-zinc-100 px-2 py cursor-pointer"
+          >
             search
           </button>
         </div>
