@@ -1,5 +1,8 @@
 import React from 'react'
 import { ForecastType } from '../types'
+import Sunrise from './Icons/Sunrise';
+import Sunset from './Icons/Sunset';
+import { getSunTime } from '../helpers';
 
 type Props = {
     forecast:ForecastType;
@@ -44,6 +47,15 @@ const Forecast = ({forecast}:Props):JSX.Element => {
                         <p className='text-sm font-bold'><Degree temp={Math.round(item.main.temp)}/></p>
                     </div>
                 ))}
+            </section>
+
+            <section className='flex justify-between'>
+                <div className='w-[140px] text-xs font-bold flex flex-col items-center bg-white/20 backdrop-blur-lg rounded drop-shadow-lg py-4 mb-5'>
+                    <Sunrise/> <span className='mt-2'>{getSunTime(forecast.sunrise)}</span>
+                </div>
+                <div className='w-[140px] text-xs font-bold flex flex-col items-center bg-white/20 backdrop-blur-lg rounded drop-shadow-lg py-4 mb-5'>
+                    <Sunset/> <span className='mt-2'>{getSunTime(forecast.sunset)}</span>
+                </div>
             </section>
         </div>
      </div>
