@@ -1,3 +1,4 @@
+import Forecast from './components/Forecast'
 import Search from './components/Search'
 import { useForecast } from './hooks/useForecast'
 const App = (): JSX.Element => {
@@ -7,7 +8,7 @@ const App = (): JSX.Element => {
   return (
     <main className="flex justify-center items-center bg-[#001427] h-[100vh] w-full ">
       {forecast ? (
-        'we have a forecast'
+        <Forecast forecast={forecast}/>
       ) : (
         <Search
           place={place}
